@@ -1,5 +1,5 @@
 <?php
-namespace Lubos\Wedos\Shell;
+namespace Lubos\Fio\Shell;
 
 use Cake\Console\Shell;
 use Cake\Core\Configure;
