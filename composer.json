@@ -2,7 +2,7 @@
     "name": "lubos/fio",
     "type": "cakephp-plugin",
     "description": "CakePHP Fio plugin; fio.cz",
-    "keywords": ["cakephp", "digital ocean", "plugin"],
+    "keywords": ["cakephp", "fio", "bank", "plugin"],
     "homepage": "https://github.com/LubosRemplik/CakePHP-Fio",
     "license": "MIT",
     "authors": [
