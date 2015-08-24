@@ -69,35 +69,78 @@ class FioShell extends Shell
      * - from Date from in YYYY-MM-DD format
      * - to Date to in YYYY-MM-DD format
      *
-     * @return bool
+     * @return array
      */
     public function transactions()
     {
-        unset($this->params['help']);
-        unset($this->params['verbose']);
-        unset($this->params['quiet']);
-        if (!empty($this->params)) {
-            $data = array_merge($data, $this->params);
+        $results = [];
+        if (!isset($this->params['from'])) {
+            $this->params['from'] = date('Y-m-d', strtotime('-1 month'));
         }
-        if (!isset($data['from'])) {
-            $data['from'] = date('Y-m-d', strtotime('-1 month'));
-        }
-        if (!isset($data['to'])) {
-            $data['to'] = date('Y-m-d');
+        if (!isset($this->params['to'])) {
+            $this->params['to'] = date('Y-m-d');
         }
         $url = sprintf(
             '%s/periods/%s/%s/%s/transactions.json',
             $this->url,
             $this->token,
-            $data['from'],
-            $data['to']
+            $this->params['from'],
+            $this->params['to']
         );
         $response = $this->client->get($url);
         if ($response->isOk()) {
-            debug($response);
+            $body = json_decode($response->body);
+            $transactions = $body
+                ->accountStatement
+                ->transactionList
+                ->transaction;
+            $num = 1;
+            foreach ($transactions as $transaction) {
+                $item = [];
+                foreach ($transaction as $column) {
+                    if (isset($column)) {
+                        $item[$column->name] = $column->value;
+                    }
+                }
+                if (!$this->params['quiet']) {
+                    $out = sprintf(
+                        '%03d. %s %s at %s',
+                        $num++,
+                        $item['Objem'],
+                        $item['Měna'],
+                        $item['Datum']
+                    );
+                    if (!empty($item['VS'])) {
+                        $out .= sprintf(', VS: %s', $item['VS']);
+                    }
+                    if (!empty($item['Uživatelská identifikace'])) {
+                        $out .= sprintf(', Message: %s', $item['Uživatelská identifikace']);
+                    }
+                    if ($item['Objem'] < 0) {
+                        $out = sprintf('<warning>%s</warning>', $out);
+                    } else {
+                        $out = sprintf('<success>%s</success>', $out);
+                    }
+                    $this->out($out);
+                }
+                $results[] = $item;
+            }
+            $this->out(sprintf(
+                'Opening balance: %s',
+                $body->accountStatement
+                    ->info
+                    ->openingBalance
+            ));
+            $this->out(sprintf(
+                'Closing balance: %s',
+                $body->accountStatement
+                    ->info
+                    ->closingBalance
+            ));
+            $this->hr();
         } else {
             debug($response);
         }
-        return false;
+        return $results;
     }
 }
