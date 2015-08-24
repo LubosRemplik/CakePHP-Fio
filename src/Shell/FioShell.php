@@ -35,7 +35,7 @@ class FioShell extends Shell
     {
         $parser = parent::getOptionParser();
         $parser->addSubcommand('transactions', [
-            'help' => 'Checking if domain is available',
+            'help' => 'Returns fio transactions for period.',
             'parser' => [
                 'options' => [
                     'from' => [
