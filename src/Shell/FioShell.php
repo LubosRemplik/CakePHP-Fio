@@ -125,19 +125,21 @@ class FioShell extends Shell
                 }
                 $results[] = $item;
             }
-            $this->out(sprintf(
-                'Opening balance: %s',
-                $body->accountStatement
-                    ->info
-                    ->openingBalance
-            ));
-            $this->out(sprintf(
-                'Closing balance: %s',
-                $body->accountStatement
-                    ->info
-                    ->closingBalance
-            ));
-            $this->hr();
+            if (!$this->params['quiet']) {
+                $this->out(sprintf(
+                    'Opening balance: %s',
+                    $body->accountStatement
+                        ->info
+                        ->openingBalance
+                ));
+                $this->out(sprintf(
+                    'Closing balance: %s',
+                    $body->accountStatement
+                        ->info
+                        ->closingBalance
+                ));
+                $this->hr();
+            }
         } else {
             debug($response);
         }
