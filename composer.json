@@ -1,0 +1,24 @@
+{
+    "name": "lubos/fio",
+    "type": "cakephp-plugin",
+    "description": "CakePHP Fio plugin; fio.cz",
+    "keywords": ["cakephp", "digital ocean", "plugin"],
+    "homepage": "https://github.com/LubosRemplik/CakePHP-Fio",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lubos Remplik",
+            "homepage": "http://lubos.me"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "cakephp/plugin-installer": "*",
+        "cakephp/cakephp": "~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lubos\\Fio\\": "src"
+        }
+    }
+}
