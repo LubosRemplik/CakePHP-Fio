@@ -113,8 +113,8 @@ class FioShell extends Shell
                     if (!empty($item['VS'])) {
                         $out .= sprintf(', VS: %s', $item['VS']);
                     }
-                    if (!empty($item['Uživatelská identifikace'])) {
-                        $out .= sprintf(', Message: %s', $item['Uživatelská identifikace']);
+                    if (!empty($item['Komentář'])) {
+                        $out .= sprintf(', Message: %s', $item['Komentář']);
                     }
                     if ($item['Objem'] < 0) {
                         $out = sprintf('<warning>%s</warning>', $out);
