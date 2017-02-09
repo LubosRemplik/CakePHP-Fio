@@ -47,6 +47,7 @@ class FioShell extends Shell
                 ]
             ]
         ]);
+
         return $parser;
     }
 
@@ -143,6 +144,7 @@ class FioShell extends Shell
         } else {
             throw new \Exception(sprintf('Ended with status code %s', $response->code));
         }
+
         return $results;
     }
 }
