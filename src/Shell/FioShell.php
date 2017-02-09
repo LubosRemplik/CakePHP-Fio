@@ -141,7 +141,7 @@ class FioShell extends Shell
                 $this->hr();
             }
         } else {
-            debug($response);
+            throw new \Exception(sprintf('Ended with status code %s', $response->code));
         }
         return $results;
     }
