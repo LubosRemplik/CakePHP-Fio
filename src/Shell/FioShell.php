@@ -147,4 +147,19 @@ class FioShell extends Shell
 
         return $results;
     }
+
+    /**
+     * Method: setToken
+     *
+     * Possible to rewrite constructor set token
+     *
+     * @param string $token
+     * @return object
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+
+        return $this;
+    }
 }
