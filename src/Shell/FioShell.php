@@ -163,7 +163,7 @@ class FioShell extends Shell
      *
      * Get accountStatement info from last call when available
      *
-     * @return void
+     * @return bool
      */
     public function getInfo()
     {
@@ -179,7 +179,7 @@ class FioShell extends Shell
      *
      * Possible to rewrite constructor set token
      *
-     * @param string $token
+     * @param string $token Fio token
      * @return object
      */
     public function setToken($token)
@@ -197,7 +197,8 @@ class FioShell extends Shell
      * @param stdClass $info accountStatement info
      * @return object
      */
-    public function setInfo($info) {
+    public function setInfo($info)
+    {
         $this->info = $info;
 
         return $this;
