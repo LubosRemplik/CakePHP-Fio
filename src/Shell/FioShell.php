@@ -9,6 +9,15 @@ class FioShell extends Shell
 {
 
     /**
+     * Attribute: info
+     *
+     * Keeps fio accountStatement info when available from API call
+     *
+     * @var mixed
+     */
+    protected $info;
+
+    /**
      * Constructs this Shell instance.
      *
      * @param \Cake\Console\ConsoleIo $io An io instance.
@@ -96,6 +105,7 @@ class FioShell extends Shell
                 ->transactionList
                 ->transaction;
             $num = 1;
+            $this->setInfo($body->accountStatement->info);
             foreach ($transactions as $transaction) {
                 $item = [];
                 foreach ($transaction as $column) {
@@ -149,6 +159,22 @@ class FioShell extends Shell
     }
 
     /**
+     * Method: getInfo
+     *
+     * Get accountStatement info from last call when available
+     *
+     * @return void
+     */
+    public function getInfo()
+    {
+        if (isset($this->info)) {
+            return $this->info;
+        }
+
+        return false;
+    }
+
+    /**
      * Method: setToken
      *
      * Possible to rewrite constructor set token
@@ -159,6 +185,20 @@ class FioShell extends Shell
     public function setToken($token)
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * Method: setInfo
+     *
+     * Set accountStatement info
+     *
+     * @param stdClass $info accountStatement info
+     * @return object
+     */
+    public function setInfo($info) {
+        $this->info = $info;
 
         return $this;
     }
