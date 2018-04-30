@@ -3,7 +3,7 @@ namespace Lubos\Fio\Shell;
 
 use Cake\Console\Shell;
 use Cake\Core\Configure;
-use Cake\Network\Http\Client;
+use Cake\Http\Client;
 
 class FioShell extends Shell
 {
