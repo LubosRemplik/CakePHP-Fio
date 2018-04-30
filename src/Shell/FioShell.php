@@ -28,7 +28,7 @@ class FioShell extends Shell
         parent::__construct($io);
         $data = Configure::read('Fio');
         if (!isset($data['token'])) {
-            $this->error('Please set up Fio token');
+            $this->abort('Please set up Fio token');
         }
         $this->client = new Client();
         $this->token = $data['token'];
