@@ -43,6 +43,9 @@ class FioShell extends Shell
     public function getOptionParser()
     {
         $parser = parent::getOptionParser();
+        $parser->addSubcommand('lastTransactions', [
+            'help' => 'Returns fio transactions since last download.',
+        ]);
         $parser->addSubcommand('transactions', [
             'help' => 'Returns fio transactions for period.',
             'parser' => [
@@ -71,6 +74,18 @@ class FioShell extends Shell
     }
 
     /**
+     * Method: lastTransactions
+     *
+     * Returns fio transactions since last download.
+     *
+     * @return void
+     */
+    public function lastTransactions()
+    {
+        $this->transactions(true);
+    }
+
+    /**
      * transactions
      *
      * Returns fio transactions for period.
@@ -79,24 +94,33 @@ class FioShell extends Shell
      * - from Date from in YYYY-MM-DD format
      * - to Date to in YYYY-MM-DD format
      *
+     * @param bool $last Using last transactions instead of period
      * @return array
      */
-    public function transactions()
+    public function transactions($last = false)
     {
         $results = [];
-        if (!isset($this->params['from'])) {
-            $this->params['from'] = date('Y-m-d', strtotime('-1 month'));
+        if ($last) {
+            $url = sprintf(
+                '%s/last/%s/transactions.json',
+                $this->url,
+                $this->token
+            );
+        } else {
+            if (!isset($this->params['from'])) {
+                $this->params['from'] = date('Y-m-d', strtotime('-1 month'));
+            }
+            if (!isset($this->params['to'])) {
+                $this->params['to'] = date('Y-m-d');
+            }
+            $url = sprintf(
+                '%s/periods/%s/%s/%s/transactions.json',
+                $this->url,
+                $this->token,
+                $this->params['from'],
+                $this->params['to']
+            );
         }
-        if (!isset($this->params['to'])) {
-            $this->params['to'] = date('Y-m-d');
-        }
-        $url = sprintf(
-            '%s/periods/%s/%s/%s/transactions.json',
-            $this->url,
-            $this->token,
-            $this->params['from'],
-            $this->params['to']
-        );
         $response = $this->client->get($url);
         if ($response->isOk()) {
             $body = json_decode($response->body);
