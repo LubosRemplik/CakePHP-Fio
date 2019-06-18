@@ -82,7 +82,7 @@ class FioShell extends Shell
      */
     public function lastTransactions()
     {
-        $this->transactions(true);
+        return $this->transactions(true);
     }
 
     /**
